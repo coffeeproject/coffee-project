@@ -13,8 +13,17 @@ function renderCoffee(coffee) {
 function renderCoffees(coffees) {
     var html = '';
     for(var i = coffees.length - 1; i >= 0; i--) {
+        if(input3.value === '') {
             html += renderCoffee(coffees[i]);
+        } else if(input3.value.toUpperCase().charAt(0) === coffees[i].name.charAt(0)){
+            html += renderCoffee(coffees[i]);
+            if(input3.value.toUpperCase().charAt(0) === coffees[i].name.charAt(0) && input3.value.toLowerCase().charAt(1) === coffees[i].name.charAt(1)) {
+                html = '';
+                html += renderCoffee(coffees[i]);
+            }
+        }
     }
+
     return html;
 }
 
@@ -69,12 +78,17 @@ var submitButton2 = document.querySelector('#submit2');
 var roastSelection = document.querySelector('#roast-selection');
 var input1 = document.querySelector('#roast-selection2');
 var input2 = document.querySelector('#coffeeName');
+var input3 = document.querySelector('#coffeSelect');
 
 tbody.innerHTML = renderCoffees(coffees.reverse());
 
 submitButton.addEventListener('click', updateCoffees);
 
 submitButton2.addEventListener('click', updateCoffees);
+input3.addEventListener('keyup', function() {
+    tbody.innerHTML = renderCoffees(coffees);
+    console.log('pressing');
+});
 
 
 
