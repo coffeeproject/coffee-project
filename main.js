@@ -15,12 +15,14 @@ function renderCoffees(coffees) {
     for(var i = coffees.length - 1; i >= 0; i--) {
         if(input3.value === '') {
             html += renderCoffee(coffees[i]);
-        } else if(input3.value.toUpperCase().charAt(0) === coffees[i].name.charAt(0)){
+        } else if(input3.value.toUpperCase().charAt(0) === coffees[i].name.charAt(0) && input3.value.charAt(1) === ''){
             html += renderCoffee(coffees[i]);
-            if(input3.value.toUpperCase().charAt(0) === coffees[i].name.charAt(0) && input3.value.toLowerCase().charAt(1) === coffees[i].name.charAt(1)) {
-                html = '';
-                html += renderCoffee(coffees[i]);
-            }
+        } else if(input3.value.toUpperCase().charAt(0) === coffees[i].name.charAt(0) && input3.value.charAt(1) === coffees[i].name.charAt(1) && input3.value.charAt(2) === ''){
+            html += renderCoffee(coffees[i]);
+        } else if(input3.value.toUpperCase().charAt(0) === coffees[i].name.charAt(0) && input3.value.charAt(1) === coffees[i].name.charAt(1) && input3.value.charAt(2) === coffees[i].name.charAt(2) && input3.value.charAt(3) === '') {
+            html += renderCoffee(coffees[i]);
+        }  else if(input3.value.toUpperCase().charAt(0) === coffees[i].name.charAt(0) && input3.value.charAt(1) === coffees[i].name.charAt(1) && input3.value.charAt(2) === coffees[i].name.charAt(2) && input3.value.charAt(3) === coffees[i].name.charAt(3) && input3.value.charAt(4) === '') {
+            html += renderCoffee(coffees[i]);
         }
     }
 
