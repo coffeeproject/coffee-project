@@ -5,6 +5,8 @@ table {
 
 body{
     background-color: #83624B;
+    margin: 0;
+    padding: 0;
 }
 
 td, th {
@@ -12,12 +14,32 @@ td, th {
     padding: 5px 10px;
 }
 
+label {
+    font-family: 'Coiny', cursive;
+}
+
 .submit {
     width: 100%;
 }
 
+#submit {
+    background-color: #8B4513;
+}
+
+#submit2{
+    background-color: #8B4513;
+}
+
 #navbar{
     background-image: url("img/coffee1.jpg");
+    opacity: 0.5;
+    filter: alpha(opacity=50);
+}
+
+#footer {
+    background-image: url("img/coffee1.jpg");
+    background-size: 100%;
+    margin-top: 2%;
     opacity: 0.5;
     filter: alpha(opacity=50);
 }
@@ -38,4 +60,10 @@ td, th {
     color: limegreen;
     font-size: .6em;
     font-family: 'Coiny', cursive;
+}
+
+#footerH{
+    color: black;
+    font-family: 'Coiny', cursive;
+    letter-spacing: 30px;
 }
