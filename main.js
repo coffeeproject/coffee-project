@@ -1,62 +1,16 @@
+(function () {
 "use strict";
 
-function renderCoffee(coffee) {
-    var html = '<div class="col-md-5" id="coffees">';
-    // html += '<li>' + coffee.id + '</li>';
-    html += '<span id="coffeeNames">' + coffee.name + '</span>' + ' : ' + '<span id="cofferoast">' + coffee.roast + '</span>';
-    // html += '<div>' + coffee.roast + '</div>';
-    html += '</div>';
+// global Vars
+var divCoffees = document.querySelector('#coffees');
+var submitButton = document.querySelector('#submit');
+var submitButton2 = document.querySelector('#submit2');
+var roastSelection = document.querySelector('#roast-selection');
+var input1 = document.querySelector('#roast-selection2');
+var input2 = document.querySelector('#coffeeName');
+var input3 = document.querySelector('#coffeSelect');
 
-    return html;
-}
-
-function renderCoffees(coffees) {
-    var html = '';
-    for(var i = coffees.length - 1; i >= 0; i--) {
-        if(input3.value === '') {
-            html += renderCoffee(coffees[i]);
-        } else if(input3.value.toUpperCase().charAt(0) === coffees[i].name.charAt(0) && input3.value.charAt(1) === ''){
-            html += renderCoffee(coffees[i]);
-        } else if(input3.value.toUpperCase().charAt(0) === coffees[i].name.charAt(0) && input3.value.charAt(1) === coffees[i].name.charAt(1) && input3.value.charAt(2) === ''){
-            html += renderCoffee(coffees[i]);
-        } else if(input3.value.toUpperCase().charAt(0) === coffees[i].name.charAt(0) && input3.value.charAt(1) === coffees[i].name.charAt(1) && input3.value.charAt(2) === coffees[i].name.charAt(2) && input3.value.charAt(3) === '') {
-            html += renderCoffee(coffees[i]);
-        }  else if(input3.value.toUpperCase().charAt(0) === coffees[i].name.charAt(0) && input3.value.charAt(1) === coffees[i].name.charAt(1) && input3.value.charAt(2) === coffees[i].name.charAt(2) && input3.value.charAt(3) === coffees[i].name.charAt(3) && input3.value.charAt(4) === '') {
-            html += renderCoffee(coffees[i]);
-        }
-    }
-
-    return html;
-}
-
-function updateCoffees(e) {
-    e.preventDefault(); // don't submit the form, we just want to update the data
-    var selectedRoast = roastSelection.value;
-    var selectedRoast2 = input1;
-    var coffeeName = input2;
-    var filteredCoffees = [];
-    if(selectedRoast2.value === 'light' && input2.value !== ''){
-        coffees.push({name: document.getElementById('coffeeName').value, roast: selectedRoast2.value});
-        coffeeName.value = '';
-    } else if(selectedRoast2.value === 'medium' && input2.value !== ''){
-        coffees.push({name: document.getElementById('coffeeName').value, roast: selectedRoast2.value});
-        coffeeName.value = '';
-    } else if(selectedRoast2.value === 'dark' && input2.value !== ''){
-        coffees.push({name: document.getElementById('coffeeName').value, roast: selectedRoast2.value});
-        coffeeName.value = '';
-    }
-
-    coffees.forEach(function(coffee) {
-            if (coffee.roast === selectedRoast) {
-                filteredCoffees.push(coffee);
-            } else if (document.getElementById('roast-selection').value === 'name') {
-                filteredCoffees.push(coffee);
-            }
-    });
-    tbody.innerHTML = renderCoffees(filteredCoffees);
-}
-
-// from http://www.ncausa.org/About-Coffee/Coffee-Roasts-Guide
+// array of coffee objects
 var coffees = [
     {id: 1, name: 'Light City', roast: 'light'},
     {id: 2, name: 'Half City', roast: 'light'},
@@ -74,23 +28,88 @@ var coffees = [
     {id: 14, name: 'French', roast: 'dark'},
 ];
 
-var tbody = document.querySelector('#coffees');
-var submitButton = document.querySelector('#submit');
-var submitButton2 = document.querySelector('#submit2');
-var roastSelection = document.querySelector('#roast-selection');
-var input1 = document.querySelector('#roast-selection2');
-var input2 = document.querySelector('#coffeeName');
-var input3 = document.querySelector('#coffeSelect');
-
-tbody.innerHTML = renderCoffees(coffees.reverse());
-
+// events
 submitButton.addEventListener('click', updateCoffees);
-
 submitButton2.addEventListener('click', updateCoffees);
-input3.addEventListener('keyup', function() {
-    tbody.innerHTML = renderCoffees(coffees);
-    console.log('pressing');
+input3.addEventListener('keyup', function () {
+    console.log(coffees);
+    divCoffees.innerHTML = renderCoffees(coffees);
 });
 
+//displaying coffees into html
+divCoffees.innerHTML = renderCoffees(coffees.reverse());
+
+//start of functions
+function updateCoffees(e) {
+    e.preventDefault(); // don't submit the form, we just want to update the data
+    var selectedRoast = roastSelection.value;
+    var selectedRoast2 = input1;
+    var coffeeName = input2;
+    var filteredCoffees = [];
+    if(selectedRoast2.value === 'light' && input2.value !== ''){
+        coffees.push({name: coffeeName.value, roast: selectedRoast2.value});
+        coffeeName.value = '';
+    } else if(selectedRoast2.value === 'medium' && input2.value !== ''){
+        coffees.splice(9, 0, {name: coffeeName.value, roast: selectedRoast2.value});
+        coffeeName.value = '';
+    } else if(selectedRoast2.value === 'dark' && input2.value !== ''){
+        coffees.unshift({name: coffeeName.value, roast: selectedRoast2.value});
+        coffeeName.value = '';
+    }
+
+    coffees.forEach(function(coffee) {
+            if (coffee.roast === selectedRoast) {
+                filteredCoffees.push(coffee);
+            } else if (document.getElementById('roast-selection').value === 'all') {
+                filteredCoffees.push(coffee);
+            }
+    });
+    divCoffees.innerHTML = renderCoffees(filteredCoffees);
+}
+
+function renderCoffees(coffees) {
+    var html = '';
+    for(var i = coffees.length - 1; i >= 0; i--) {
+        if(input3.value === '') {
+            html += renderCoffee(coffees[i]);
+        } else if(input3.value.toLowerCase().charAt(0) === coffees[i].name.toLowerCase().charAt(0) && input3.value.charAt(1) === ''){
+            html += renderCoffee(coffees[i]);
+        } else if(input3.value.toLowerCase().charAt(0) === coffees[i].name.toLowerCase().charAt(0) && input3.value.charAt(1) === coffees[i].name.charAt(1) && input3.value.charAt(2) === ''){
+            html += renderCoffee(coffees[i]);
+        } else if(input3.value.toLowerCase().charAt(0) === coffees[i].name.toLowerCase().charAt(0) && input3.value.charAt(1) === coffees[i].name.charAt(1) && input3.value.charAt(2) === coffees[i].name.charAt(2) && input3.value.charAt(3) === '') {
+            html += renderCoffee(coffees[i]);
+        }  else if(input3.value.toLowerCase().charAt(0) === coffees[i].name.toLowerCase().charAt(0) && input3.value.charAt(1) === coffees[i].name.charAt(1) && input3.value.charAt(2) === coffees[i].name.charAt(2) && input3.value.charAt(3) === coffees[i].name.charAt(3) && input3.value.charAt(4) === '') {
+            html += renderCoffee(coffees[i]);
+        } else if(input3.value.toLowerCase().charAt(0) === coffees[i].name.toLowerCase().charAt(0) && input3.value.charAt(1) === coffees[i].name.charAt(1) && input3.value.charAt(2) === coffees[i].name.charAt(2) && input3.value.charAt(3) === coffees[i].name.charAt(3)
+            && input3.value.charAt(4) === coffees[i].name.charAt(4) && input3.value.charAt(5) === '') {
+            html += renderCoffee(coffees[i]);
+        } else if(input3.value.toLowerCase().charAt(0) === coffees[i].name.toLowerCase().charAt(0) && input3.value.charAt(1) === coffees[i].name.charAt(1) && input3.value.charAt(2) === coffees[i].name.charAt(2) && input3.value.charAt(3) === coffees[i].name.charAt(3)
+            && input3.value.charAt(4) === coffees[i].name.charAt(4) && input3.value.charAt(5) === coffees[i].name.charAt(5) && input3.value.charAt(6) === '') {
+            html += renderCoffee(coffees[i]);
+        } else if(input3.value.toLowerCase().charAt(0) === coffees[i].name.toLowerCase().charAt(0) && input3.value.charAt(1) === coffees[i].name.charAt(1) && input3.value.charAt(2) === coffees[i].name.charAt(2) && input3.value.charAt(3) === coffees[i].name.charAt(3)
+            && input3.value.charAt(4) === coffees[i].name.charAt(4) && input3.value.charAt(5) === coffees[i].name.charAt(5) && input3.value.charAt(6) === coffees[i].name.charAt(6) &&
+            input3.value.charAt(7) === '') {
+            html += renderCoffee(coffees[i]);
+        } else if(input3.value.toLowerCase().charAt(0) === coffees[i].name.toLowerCase().charAt(0) && input3.value.charAt(1) === coffees[i].name.charAt(1) && input3.value.charAt(2) === coffees[i].name.charAt(2) && input3.value.charAt(3) === coffees[i].name.charAt(3)
+            && input3.value.charAt(4) === coffees[i].name.charAt(4) && input3.value.charAt(5) === coffees[i].name.charAt(5) && input3.value.charAt(6) === coffees[i].name.charAt(6) && input3.value.charAt(7) === coffees[i].name.charAt(7) &&
+            input3.value.charAt(8) === '') {
+            html += renderCoffee(coffees[i]);
+        }
+    }
+    return html;
+}
+
+function renderCoffee(coffee) {
+    var html = '<div class="col-md-6" id="coffees">';
+    // html += '<li>' + coffee.id + '</li>';
+    html += '<span id="coffeeNames">' + coffee.name + '</span>' + ' : ' + '<span id="cofferoast">' + coffee.roast + '</span>';
+    // html += '<div>' + coffee.roast + '</div>';
+    html += '</div>';
+
+    return html;
+}
+
+
+})();
 
 
